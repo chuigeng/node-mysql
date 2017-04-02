@@ -25,7 +25,12 @@ exports.query = function(sql, data) {
         reject(error);
         return;
       }
-      resolve(results);
+      // 如果是更新或者插入，则返回 true / false
+      if (sql.indexOf('update') === 0 || sql.indexOf('insert') === 0) {
+        resolve(results.affectedRows > 0);
+      } else {
+        resolve(results);
+      }
     });
   });
 };
